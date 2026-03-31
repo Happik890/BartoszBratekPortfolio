@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — Unlock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--bg:#0a0a0a;--card-dark:#111;--red:#c0001a;--gold:#f5c400;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:#fff;overflow-x:hidden;}
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes glitch1{0%,100%{clip-path:inset(40% 0 61% 0)}20%{clip-path:inset(92% 0 1% 0)}40%{clip-path:inset(43% 0 1% 0)}60%{clip-path:inset(25% 0 58% 0)}80%{clip-path:inset(54% 0 7% 0)}}
+  @keyframes glitch2{0%,100%{clip-path:inset(25% 0 58% 0);transform:translate(-2px,0)}20%{clip-path:inset(54% 0 7% 0);transform:translate(2px,0)}40%{clip-path:inset(92% 0 1% 0);transform:translate(-2px,0)}60%{clip-path:inset(40% 0 61% 0);transform:translate(2px,0)}80%{clip-path:inset(43% 0 1% 0);transform:translate(-2px,0)}}
+  @keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.75}94%{opacity:1}96%{opacity:.88}97%{opacity:1}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 18px rgba(192,0,26,.4)}50%{box-shadow:0 0 36px rgba(192,0,26,.75),0 0 72px rgba(192,0,26,.2)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* scanline */
+  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 4px);pointer-events:none;z-index:9990;}
+
+  /* BANNER */
+  .page-banner{background:#0a0a0a;padding:56px 60px;position:relative;overflow:hidden;border-bottom:1px solid #1a1a1a;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.02);line-height:1;user-select:none;pointer-events:none;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--red);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  /* LOCK HERO */
+  .lock-hero{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 20px;}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(192,0,26,.09) 0%,transparent 65%);}
+  .hud-corner{position:absolute;width:48px;height:48px;}
+  .hud-corner.tl{top:20px;left:20px;border-top:1px solid var(--red);border-left:1px solid var(--red);}
+  .hud-corner.tr{top:20px;right:20px;border-top:1px solid var(--red);border-right:1px solid var(--red);}
+  .hud-corner.bl{bottom:20px;left:20px;border-bottom:1px solid var(--red);border-left:1px solid var(--red);}
+  .hud-corner.br{bottom:20px;right:20px;border-bottom:1px solid var(--red);border-right:1px solid var(--red);}
+  .lock-content{position:relative;z-index:1;text-align:center;animation:fadeUp .9s ease .2s both;}
+  .access-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.28em;text-transform:uppercase;margin-bottom:20px;}
+  .lock-icon-wrap{animation:float 3s ease-in-out infinite;margin-bottom:28px;}
+  .lock-icon{width:76px;height:76px;border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto;animation:pulse 2s ease-in-out infinite;}
+  .lock-icon svg{width:34px;height:34px;fill:var(--red);}
+  .glitch-wrap{position:relative;text-align:center;margin-bottom:10px;}
+  .glitch-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(36px,6vw,72px);color:#fff;text-transform:uppercase;line-height:1;display:block;animation:flicker 4s infinite;}
+  .glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;top:0;left:0;right:0;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(36px,6vw,72px);text-transform:uppercase;line-height:1;}
+  .glitch-title::before{color:var(--red);animation:glitch1 3s infinite linear;}
+  .glitch-title::after{color:var(--gold);animation:glitch2 3s infinite linear .15s;}
+  .lock-sub{font-family:'Share Tech Mono',monospace;font-size:12px;color:#444;letter-spacing:.1em;text-align:center;margin-bottom:40px;line-height:1.6;}
+  .lock-sub span{color:var(--gold);}
+  .email-btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;padding:18px 44px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--red);cursor:pointer;transition:all .25s;animation:pulse 2.2s ease-in-out infinite;}
+  .email-btn:hover{background:transparent;color:var(--red);animation:none;}
+  .email-btn svg{width:18px;height:18px;fill:currentColor;flex-shrink:0;}
+  .alt-contact{font-family:'Share Tech Mono',monospace;font-size:10px;color:#333;letter-spacing:.08em;margin-top:14px;}
+  .alt-contact a{color:#555;text-decoration:none;border-bottom:1px solid #333;transition:color .2s,border-color .2s;}
+  .alt-contact a:hover{color:var(--gold);border-color:var(--gold);}
+  .status-line{display:flex;justify-content:center;gap:48px;margin-top:48px;flex-wrap:wrap;}
+  .status-item{text-align:center;}
+  .status-val{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:26px;color:var(--red);display:block;}
+  .status-key{font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;text-transform:uppercase;letter-spacing:.1em;margin-top:4px;display:block;}
+
+  /* DOSSIER */
+  .dossier{padding:60px;}
+  .dossier-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:#333;letter-spacing:.16em;text-transform:uppercase;text-align:center;margin-bottom:28px;}
+  .blur-section{position:relative;}
+  .blur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .blur-card{background:#111;border:1px solid #1e1e1e;padding:26px 22px;filter:blur(5px);user-select:none;pointer-events:none;}
+  .blur-card-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:#555;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
+  .blur-card-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:18px;color:#fff;margin-bottom:12px;}
+  .blur-bars{display:flex;flex-direction:column;gap:9px;}
+  .blur-bar-row{display:flex;align-items:center;gap:10px;}
+  .blur-bar-lbl{font-family:'Rajdhani',sans-serif;font-size:12px;color:#666;width:110px;flex-shrink:0;}
+  .blur-bar-track{flex:1;height:4px;background:#222;}
+  .blur-bar-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));}
+  .blur-stats{display:flex;flex-direction:column;gap:7px;}
+  .blur-stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #1a1a1a;}
+  .blur-stat-k{font-family:'Share Tech Mono',monospace;font-size:9px;color:#444;}
+  .blur-stat-v{font-family:'Rajdhani',sans-serif;font-size:13px;color:#777;}
+  .blur-lines{display:flex;flex-direction:column;gap:8px;}
+  .blur-line{height:11px;background:#1e1e1e;border-radius:2px;}
+  .blur-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;}
+  .restricted-badge{text-align:center;}
+  .restricted-tag{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px;}
+  .restricted-block{display:inline-block;background:var(--red);color:var(--red);font-family:'Share Tech Mono',monospace;font-size:22px;font-weight:700;padding:3px 10px;letter-spacing:.12em;user-select:none;}
+
+  .copy-toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;border:1px solid var(--red);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.1em;padding:10px 24px;opacity:0;transition:opacity .3s,transform .3s;z-index:999;pointer-events:none;}
+  .copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  footer{background:var(--black);border-top:1px solid #1a1a1a;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#222;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#444;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:768px){.dossier{padding:32px 20px;}.blur-grid{grid-template-columns:1fr;}.status-line{gap:24px;}.page-banner{padding:48px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-banner">
+    <div class="banner-num">06</div>
+    <div class="banner-inner">
+      <h1>Unlock</h1>
+      <div class="banner-sub">// Access Restricted — Candidate File</div>
+    </div>
+  </div>
+
+  <section class="lock-hero">
+    <div class="hero-bg"></div>
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+    <div class="lock-content">
+      <div class="access-label">// Access Restricted — Candidate File</div>
+      <div class="lock-icon-wrap">
+        <div class="lock-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+      </div>
+      <div class="glitch-wrap"><span class="glitch-title" data-text="Hire to Unlock">Hire to Unlock</span></div>
+      <div class="lock-sub">Full candidate profile · Contact details · References · Deep stats<br><span>[ Restricted to potential employers only ]</span></div>
+      <button class="email-btn" onclick="copyEmail()">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Contact Bartosz
+      </button>
+      <div class="alt-contact">or connect on <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener">LinkedIn</a></div>
+      <div class="status-line">
+        <div class="status-item"><span class="status-val">1ST</span><span class="status-key">Honours</span></div>
+        <div class="status-item"><span class="status-val">3</span><span class="status-key">Live Campaigns</span></div>
+        <div class="status-item"><span class="status-val">███</span><span class="status-key">References [Restricted]</span></div>
+        <div class="status-item"><span class="status-val">███</span><span class="status-key">Availability [Restricted]</span></div>
+        <div class="status-item"><span class="status-val">███</span><span class="status-key">Salary Range [Restricted]</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="dossier">
+    <div class="dossier-label">// Candidate Dossier — Restricted Preview</div>
+    <div class="blur-section">
+      <div class="blur-grid">
+        <div class="blur-card">
+          <div class="blur-card-label">Full Skill Profile</div>
+          <div class="blur-card-title">Advanced Capabilities</div>
+          <div class="blur-bars">
+            <div class="blur-bar-row"><span class="blur-bar-lbl">Creative Strategy</span><div class="blur-bar-track"><div class="blur-bar-fill" style="width:90%"></div></div></div>
+            <div class="blur-bar-row"><span class="blur-bar-lbl">Brand Narrative</span><div class="blur-bar-track"><div class="blur-bar-fill" style="width:82%"></div></div></div>
+            <div class="blur-bar-row"><span class="blur-bar-lbl">Campaign Dev</span><div class="blur-bar-track"><div class="blur-bar-fill" style="width:85%"></div></div></div>
+            <div class="blur-bar-row"><span class="blur-bar-lbl">AI Tools</span><div class="blur-bar-track"><div class="blur-bar-fill" style="width:75%"></div></div></div>
+          </div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-label">Contact &amp; Availability</div>
+          <div class="blur-card-title">Candidate Details</div>
+          <div class="blur-stats">
+            <div class="blur-stat"><span class="blur-stat-k">Location</span><span class="blur-stat-v">United Kingdom</span></div>
+            <div class="blur-stat"><span class="blur-stat-k">Availability</span><span class="blur-stat-v">██████████</span></div>
+            <div class="blur-stat"><span class="blur-stat-k">Salary</span><span class="blur-stat-v">██████████</span></div>
+            <div class="blur-stat"><span class="blur-stat-k">Notice Period</span><span class="blur-stat-v">██████████</span></div>
+          </div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-label">References &amp; Testimonials</div>
+          <div class="blur-card-title">Character Profile</div>
+          <div class="blur-lines">
+            <div class="blur-line"></div><div class="blur-line"></div><div class="blur-line"></div>
+            <div class="blur-line" style="width:80%"></div><div class="blur-line"></div>
+            <div class="blur-line" style="width:60%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="blur-overlay">
+        <div class="restricted-badge">
+          <div class="restricted-tag">[ RESTRICTED ]</div>
+          <div class="restricted-block">ACCESS DENIED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<div class="copy-toast" id="toast">📋 bratek1804@gmail.com — copied to clipboard</div>
+
+<script>
+document.querySelectorAll('a[href]').forEach(a=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){a.addEventListener('click',e=>{e.preventDefault();document.querySelector('.page-wrap').style.transition='opacity .3s ease';document.querySelector('.page-wrap').style.opacity='0';setTimeout(()=>{window.location.href=href;},300);});}});
+function copyEmail(){
+  navigator.clipboard.writeText('bratek1804@gmail.com').then(()=>{
+    const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+  }).catch(()=>{window.location.href='mailto:bratek1804@gmail.com';});
+}
+</script>
+</body>
+</html>

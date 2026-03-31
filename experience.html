@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — Experience &amp; Reflection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--white:#fff;--bg:#fff;--card-light:#f5f5f5;--card-dark:#111;--red:#c0001a;--gold:#f5c400;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  @keyframes redGlow{0%,100%{box-shadow:0 0 5px var(--red),0 0 10px var(--red)}50%{box-shadow:0 0 10px var(--red),0 0 22px var(--red)}}
+  @keyframes hintPulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-left{opacity:0;transform:translateX(-24px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal-left.visible{opacity:1;transform:translateX(0);}
+
+  /* BANNER */
+  .page-banner{background:var(--card-dark);padding:56px 60px;position:relative;overflow:hidden;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  /* BANNER IMAGE STRIP */
+  .banner-img-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+  .bis-item{position:relative;overflow:hidden;aspect-ratio:16/7;}
+  .bis-item img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(20%);transition:filter .4s;}
+  .bis-item:hover img{filter:grayscale(0%);}
+  .bis-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(8,8,8,.75));padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,.7);letter-spacing:.08em;}
+
+  /* LAYOUT */
+  .exp-layout{display:grid;grid-template-columns:60% 40%;align-items:start;}
+
+  /* TIMELINE */
+  .timeline-col{padding:72px 56px 80px 60px;position:relative;border-right:1px solid var(--border);}
+  .timeline-line{position:absolute;left:60px;top:0;bottom:0;width:2px;background:var(--red);}
+  .timeline-entry{position:relative;padding-left:40px;margin-bottom:52px;}
+  .timeline-dot{position:absolute;left:-7px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--red);animation:redGlow 2.2s ease-in-out infinite;}
+  .entry-date{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;}
+  .entry-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:20px;color:var(--text);margin-bottom:10px;}
+  .entry-body{font-size:15px;line-height:1.8;color:var(--text);font-weight:300;}
+  .entry-body p+p{margin-top:12px;}
+  .entry-img{width:100%;height:220px;overflow:hidden;border:1px solid var(--border);margin:16px 0;background:var(--card-light);}
+  .entry-img img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* EXPAND */
+  .expand-trigger{display:inline-flex;align-items:center;gap:8px;margin-top:12px;cursor:pointer;background:none;border:none;padding:0;}
+  .exp-icon{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;transition:transform .3s;flex-shrink:0;}
+  .expand-trigger.open .exp-icon{transform:rotate(45deg);}
+  .exp-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;animation:hintPulse 2s ease-in-out infinite;}
+  .expand-trigger.open .exp-hint{animation:none;opacity:.6;}
+  .expand-content{max-height:0;overflow:hidden;transition:max-height .45s ease,opacity .3s ease,padding-top .3s;opacity:0;padding-top:0;}
+  .expand-content.open{max-height:400px;opacity:1;padding-top:12px;}
+  .expand-inner{background:var(--card-light);border-left:3px solid var(--gold);padding:14px 16px;font-size:14px;line-height:1.75;color:var(--text);font-style:italic;}
+
+  /* PULL QUOTE */
+  .pull-quote{background:var(--white);border-left:4px solid var(--gold);padding:18px 24px;margin:14px 0 44px;position:relative;overflow:hidden;}
+  .pull-quote::before{content:'"';position:absolute;left:12px;top:2px;font-family:'Rajdhani',sans-serif;font-size:72px;color:var(--gold);opacity:.1;line-height:1;pointer-events:none;}
+  .pull-quote-text{font-style:italic;font-size:18px;line-height:1.6;color:var(--text);position:relative;z-index:1;}
+
+  /* STICKY ASSESSMENT */
+  .assess-col{padding:72px 40px 80px;position:sticky;top:0;height:100vh;overflow-y:auto;scrollbar-width:none;}
+  .assess-col::-webkit-scrollbar{display:none;}
+  .assess-heading{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.14em;margin-bottom:22px;}
+  .assess-panel{margin-bottom:18px;}
+  .strengths-panel{background:var(--card-dark);border-top:4px solid var(--red);padding:22px;border:1px solid rgba(255,255,255,.06);border-top:4px solid var(--red);}
+  .gaps-panel{background:var(--white);border-top:4px solid var(--gold);padding:22px;border:1px solid var(--border);border-top:4px solid var(--gold);}
+  .assess-sub{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+  .strengths-panel .assess-sub{color:var(--red);}
+  .gaps-panel .assess-sub{color:var(--gold);}
+  .assess-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .assess-list li{font-family:'Rajdhani',sans-serif;font-size:14px;display:flex;gap:8px;align-items:flex-start;}
+  .strengths-panel .assess-list li{color:#fff;}
+  .gaps-panel .assess-list li{color:var(--text);}
+  .arrow{flex-shrink:0;margin-top:1px;}
+  .strengths-panel .arrow{color:var(--red);}
+  .gaps-panel .arrow{color:var(--gold);}
+
+  /* FOOTER */
+  footer{background:var(--black);border-top:1px solid #222;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#888;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:1024px){.page-banner{padding:48px 40px;}}
+  @media(max-width:768px){.exp-layout{grid-template-columns:1fr;}.assess-col{position:static;height:auto;overflow-y:visible;padding:40px 20px;border-top:1px solid var(--border);}.timeline-col{padding:48px 20px 48px 48px;}.timeline-line{left:20px;}.banner-img-strip{grid-template-columns:1fr;}.page-banner{padding:48px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-banner">
+    <div class="banner-num">04</div>
+    <div class="banner-inner">
+      <h1>Experience &amp; Reflection</h1>
+      <div class="banner-sub">What I have done. What I have learned. Where the gaps are.</div>
+    </div>
+  </div>
+
+  <div class="banner-img-strip">
+    <div class="bis-item"><img src="https://drive.google.com/uc?export=view&id=1slZjHtBTcPI7cnfkuf6OBm6vsQyexj79" alt="Networking"><div class="bis-overlay">Creative Networking · Games Showcase</div></div>
+    <div class="bis-item"><img src="https://drive.google.com/uc?export=view&id=16_bDb32CPvjBFFJ6eGGzG8dSoL5LUX4d" alt="Graduation"><div class="bis-overlay">First-Class Honours · 2025</div></div>
+    <div class="bis-item"><img src="https://drive.google.com/uc?export=view&id=1F75P3R_wyU4RWdJbrX0mmFCeByPFthDy" alt="Networking"><div class="bis-overlay">CDPR Apprenticeship · Final Stage</div></div>
+  </div>
+
+  <div class="exp-layout">
+    <div class="timeline-col">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-entry reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="entry-date">The Gap</div>
+        <div class="entry-title">The Starting Point</div>
+        <div class="entry-body"><p>First Class Honours and three winning live campaign is an accomplishment I am mostly proud of. However, this is only the beginning and the gap is significant compared to where I want to be – Brand Creative Director at CD Projekt Red.</p></div>
+        <button class="expand-trigger" data-target="exp1"><span class="exp-icon">+</span><span class="exp-hint">▸ My honest take — tap to read</span></button>
+        <div class="expand-content" id="exp1"><div class="expand-inner">I'm proud of it. Genuinely. But I also know the distance between a good degree and where I want to end up is massive. Being honest about that is actually more motivating than pretending otherwise.</div></div>
+      </div>
+
+      <div class="timeline-entry reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="entry-date">Industry Experience</div>
+        <div class="entry-title">The Most Significant Challenge</div>
+        <div class="entry-body">
+          <p>The lack of industry experience is the most significant gap I have to challenge. I have never worked in a professional marketing or creative team. Every project I have completed did not bring a real commercial consequence of failure rather than academic.</p>
+          <p>During the Channel 4 project I have realised the difference in approach, environment and expectations from a company that expects real outcomes. The campaigns developed for every business did not present me with measurable data such as click-through rates, conversion and audience growth statistics which are crucial in a professional environment.</p>
+        </div>
+        <button class="expand-trigger" data-target="exp2"><span class="exp-icon">+</span><span class="exp-hint">▸ My honest take — tap to read</span></button>
+        <div class="expand-content" id="exp2"><div class="expand-inner">I haven't worked in a real team with real stakes yet. That's just the truth. University protected me from real consequences and I know it. Getting into a professional environment where something actually depends on the work — that's the gap I need to close more than anything else.</div></div>
+      </div>
+
+      <div class="pull-quote reveal">
+        <div class="pull-quote-text">"During the Channel 4 project I have realised the difference in approach, environment and expectations from a company that expects real outcomes."</div>
+      </div>
+
+      <div class="timeline-entry reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="entry-date">Network</div>
+        <div class="entry-title">Building the Network</div>
+        <div class="entry-body">
+          <p>My professional network within the gaming industry is also limited. Within the gaming industry, relationships and personal awareness is crucial especially at a major studio level. To address this challenge and grow on professional level I have attended the Creative Networking and Games Showcase organised by Northampton Film Festival, my first gaming industry focused networking event.</p>
+          <p>To pursue my career goals, I took an active approach by networking with every studio present and offered my marketing knowledge, skills and time for free. I did not focus on transaction benefit but a step forward and genuine attempt to open paths while gaining real experience.</p>
+        </div>
+        <div class="entry-img"><img src="https://drive.google.com/uc?export=view&id=1slZjHtBTcPI7cnfkuf6OBm6vsQyexj79" alt="Networking event"></div>
+        <button class="expand-trigger" data-target="exp3"><span class="exp-icon">+</span><span class="exp-hint">▸ My honest take — tap to read</span></button>
+        <div class="expand-content" id="exp3"><div class="expand-inner">I walked into that room not knowing anyone and just started talking to people. Offered to help for free. It felt awkward at the time but it was the right move. Not every conversation led somewhere but a few did, and that's enough to keep going.</div></div>
+      </div>
+
+      <div class="timeline-entry reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="entry-date">CDPR Apprenticeship 2025</div>
+        <div class="entry-title">The Most Useful Experience</div>
+        <div class="entry-body">
+          <p>Reaching the final stage of CDPR's apprenticeship recruitment process in 2025 was one of the most useful experiences of my career so far. Despite not getting the position it demonstrated exactly what the standards looks like inside, the challenge solutions and creativity the business expects.</p>
+          <p>This presented me with a clearer path and skills required. Before the process I did not have clarity nor understood what a studio like CDPR expectations were, shaping every decision I made since.</p>
+        </div>
+        <button class="expand-trigger" data-target="exp4"><span class="exp-icon">+</span><span class="exp-hint">▸ My honest take — tap to read</span></button>
+        <div class="expand-content" id="exp4"><div class="expand-inner">Didn't get it. Still think about it. A lot. But I walked away knowing exactly what they were looking for and what I was missing — and that's more useful than getting lucky. Before that process I was guessing. Now I'm not.</div></div>
+      </div>
+
+      <div class="timeline-entry reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="entry-date">Foundation</div>
+        <div class="entry-title">What Has Been Proven</div>
+        <div class="entry-body"><p>My strengths in teamwork, creative strategy, brand narrative and campaign development are evident in real work chosen and executed by clients.</p></div>
+        <button class="expand-trigger" data-target="exp5"><span class="exp-icon">+</span><span class="exp-hint">▸ My honest take — tap to read</span></button>
+        <div class="expand-content" id="exp5"><div class="expand-inner">Three campaigns. Three clients who chose our work over everyone else's. That's not luck, that's consistent. It's not industry experience yet but it's real and I can stand behind it.</div></div>
+      </div>
+    </div>
+
+    <div class="assess-col">
+      <div class="assess-heading">// Self Assessment</div>
+      <div class="assess-panel strengths-panel">
+        <div class="assess-sub">▸ Strengths</div>
+        <ul class="assess-list">
+          <li><span class="arrow">▸</span> First-Class Honours Degree</li>
+          <li><span class="arrow">▸</span> Three winning live client campaigns</li>
+          <li><span class="arrow">▸</span> Creative strategy &amp; brand narrative</li>
+          <li><span class="arrow">▸</span> Campaign development</li>
+          <li><span class="arrow">▸</span> Real work chosen &amp; used by clients</li>
+          <li><span class="arrow">▸</span> CDPR final-stage applicant</li>
+          <li><span class="arrow">▸</span> Passion for games &amp; IP storytelling</li>
+          <li><span class="arrow">▸</span> Clear, focused career objective</li>
+        </ul>
+      </div>
+      <div class="assess-panel gaps-panel">
+        <div class="assess-sub">▸ Gaps to Address</div>
+        <ul class="assess-list">
+          <li><span class="arrow">▸</span> No professional industry experience</li>
+          <li><span class="arrow">▸</span> No measurable commercial data</li>
+          <li><span class="arrow">▸</span> Limited gaming industry network</li>
+          <li><span class="arrow">▸</span> No real CTR / conversion metrics</li>
+          <li><span class="arrow">▸</span> Academic vs commercial environment</li>
+          <li><span class="arrow">▸</span> No cross-format transmedia experience</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('a[href]').forEach(a=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){a.addEventListener('click',e=>{e.preventDefault();document.querySelector('.page-wrap').style.transition='opacity .3s ease';document.querySelector('.page-wrap').style.opacity='0';setTimeout(()=>{window.location.href=href;},300);});}});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal,.reveal-left').forEach(r=>obs.observe(r));
+document.querySelectorAll('.expand-trigger').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=document.getElementById(btn.dataset.target);const isOpen=t.classList.contains('open');
+    t.classList.toggle('open');btn.classList.toggle('open');
+    btn.querySelector('.exp-icon').textContent=isOpen?'+':'×';
+    btn.querySelector('.exp-hint').textContent=isOpen?'▸ My honest take — tap to read':'▸ Close';
+  });
+});
+</script>
+</body>
+</html>

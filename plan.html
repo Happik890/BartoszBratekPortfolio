@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — The Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--white:#fff;--bg:#fff;--card-light:#f5f5f5;--card-dark:#111;--red:#c0001a;--gold:#f5c400;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  @keyframes pulseBorder{0%,100%{box-shadow:0 0 0 2px var(--red)}50%{box-shadow:0 0 0 6px rgba(192,0,26,.2),0 0 0 2px var(--red)}}
+  @keyframes roadDraw{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+  @keyframes nodePop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* BANNER */
+  .page-banner{background:var(--card-dark);padding:56px 60px;position:relative;overflow:hidden;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  .content{padding:60px;}
+  .intro-p{font-size:17px;line-height:1.8;color:var(--text);max-width:680px;margin:0 auto 56px;text-align:center;font-weight:300;}
+
+  /* ── GAME MAP ROADMAP ── */
+  .roadmap-wrap{background:var(--card-dark);padding:56px 60px;margin-bottom:0;position:relative;overflow:hidden;}
+  .roadmap-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+  .roadmap-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.22em;text-transform:uppercase;text-align:center;margin-bottom:40px;}
+  .roadmap-svg-wrap{width:100%;overflow:visible;}
+  .roadmap-svg{width:100%;height:180px;display:block;}
+  /* Road path */
+  .road-path{fill:none;stroke:#1e1e1e;stroke-width:6;stroke-linecap:round;}
+  .road-done{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round;stroke-dasharray:1000;animation:roadDraw 2s ease .3s forwards;stroke-dashoffset:1000;}
+  .road-future{fill:none;stroke:#333;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round;}
+  /* Nodes */
+  .map-node circle{animation:nodePop .4s ease both;}
+  .map-node text{font-family:'Share Tech Mono',sans-serif;font-size:8px;fill:#888;text-anchor:middle;}
+  .map-node.done circle{fill:var(--red);filter:drop-shadow(0 0 6px rgba(192,0,26,.7));}
+  .map-node.active circle{fill:var(--gold);filter:drop-shadow(0 0 6px rgba(245,196,0,.7));}
+  .map-node.future circle{fill:#1a1a1a;stroke:#333;stroke-width:2;}
+  .map-node.done text{fill:#fff;}
+  .map-node.active text{fill:var(--gold);}
+  /* Milestone labels */
+  .milestone-label{font-family:'Share Tech Mono',monospace;font-size:7px;fill:#555;text-anchor:middle;}
+  .milestone-year{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;fill:var(--red);}
+
+  /* ── PHASE CARDS ── */
+  .phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+  .phase-col{border:1px solid var(--border);transition:transform .3s,background .3s,box-shadow .3s;position:relative;overflow:hidden;}
+  .phase-col:hover{transform:scale(1.02);}
+  .phase-1{border-top:4px solid var(--red);}
+  .phase-1:hover{background:#fff5f5;box-shadow:0 0 0 2px rgba(192,0,26,.2),0 6px 32px rgba(0,0,0,.08);}
+  .phase-2{border-top:4px solid transparent;border-image:linear-gradient(90deg,var(--red),var(--gold)) 1;}
+  .phase-2:hover{background:#fffbf0;}
+  .phase-3{border-top:4px solid var(--gold);}
+  .phase-3:hover{background:#fffbea;box-shadow:0 0 0 2px rgba(245,196,0,.2),0 6px 32px rgba(0,0,0,.08);}
+  .phase-col.highlighted{animation:pulseBorder .8s ease 3;}
+
+  /* Phase image with parallax */
+  .phase-img-wrap{height:200px;overflow:hidden;position:relative;}
+  .phase-img-wrap img{width:100%;height:120%;object-fit:cover;display:block;will-change:transform;transition:transform .1s linear;}
+  /* Phase number overlay */
+  .phase-num-overlay{position:absolute;top:12px;right:16px;font-family:'Share Tech Mono',monospace;font-size:64px;color:rgba(255,255,255,.12);line-height:1;pointer-events:none;user-select:none;}
+
+  .phase-body-wrap{padding:32px;}
+  .phase-period{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+  .phase-1 .phase-period,.phase-2 .phase-period{color:var(--red);}
+  .phase-3 .phase-period{color:var(--gold);}
+  .phase-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:24px;color:var(--text);margin-bottom:16px;}
+  .phase-text{font-size:14px;line-height:1.8;color:var(--text);font-weight:300;}
+  .phase-text p+p{margin-top:14px;}
+  .ig-link{display:inline-flex;align-items:center;gap:6px;background:var(--card-dark);border:1px solid #333;padding:5px 10px;margin:6px 0;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);text-decoration:none;transition:border-color .2s;}
+  .ig-link:hover{border-color:var(--gold);}
+
+  /* FINAL */
+  .final-statement{background:var(--black);padding:80px 40px;text-align:center;position:relative;overflow:hidden;}
+  .final-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:280px;background:radial-gradient(ellipse,rgba(192,0,26,.13) 0%,transparent 70%);pointer-events:none;}
+  .final-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.2em;text-transform:uppercase;margin-bottom:28px;position:relative;z-index:1;}
+  .final-text{font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(20px,3.5vw,42px);color:#fff;line-height:1.4;position:relative;z-index:1;}
+  .word-one{color:var(--red);}
+  .word-goal{color:var(--gold);}
+
+  /* UNLOCK TEASER */
+  .unlock-teaser{background:var(--card-dark);border-top:1px solid #1a1a1a;padding:56px 60px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .unlock-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:#444;letter-spacing:.16em;text-transform:uppercase;}
+  .unlock-btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;padding:16px 36px;text-decoration:none;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;transition:background .2s,box-shadow .2s;border:2px solid var(--red);}
+  .unlock-btn:hover{background:transparent;color:var(--red);box-shadow:0 0 28px rgba(192,0,26,.25);}
+
+  /* FOOTER */
+  footer{background:var(--black);border-top:1px solid #222;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#888;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:1024px){.content{padding:40px;}.roadmap-wrap{padding:48px 40px;}.unlock-teaser{padding:48px 40px;}}
+  @media(max-width:768px){.content{padding:24px 20px;}.phases-grid{grid-template-columns:1fr;gap:16px;}.phase-col:hover{transform:none;}.roadmap-wrap{padding:32px 20px;}.final-statement{padding:60px 24px;}.unlock-teaser{padding:48px 20px;}.page-banner{padding:48px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-banner">
+    <div class="banner-num">05</div>
+    <div class="banner-inner">
+      <h1>The Plan</h1>
+      <div class="banner-sub">Every step. Every decision. One goal.</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <p class="intro-p reveal">Self-reflection and experience demonstrated on previous page, allows me to plan my goals and future steps required.</p>
+
+    <!-- GAME MAP ROADMAP -->
+    <div class="roadmap-wrap reveal" id="roadmapWrap">
+      <div class="roadmap-tag">// Career Roadmap — Interactive Path to Goal</div>
+      <div class="roadmap-svg-wrap">
+        <svg class="roadmap-svg" viewBox="0 0 900 160" xmlns="http://www.w3.org/2000/svg" id="roadmapSvg">
+          <!-- Road background -->
+          <path class="road-path" d="M40,120 Q120,120 160,80 Q200,40 280,40 Q360,40 400,80 Q440,120 520,120 Q600,120 640,80 Q680,40 760,40 Q840,40 880,80"/>
+          <!-- Done path -->
+          <path class="road-done" d="M40,120 Q120,120 160,80 Q200,40 280,40 Q360,40 400,80"/>
+          <!-- Future path -->
+          <path class="road-future" d="M400,80 Q440,120 520,120 Q600,120 640,80 Q680,40 760,40 Q840,40 880,80"/>
+
+          <!-- NODE 1: Now -->
+          <g class="map-node done" style="animation-delay:.1s" onclick="scrollToPhase('phase1')">
+            <circle cx="40" cy="120" r="10"/>
+            <text x="40" y="148" class="milestone-label">Now</text>
+          </g>
+          <!-- NODE 2: Networking -->
+          <g class="map-node done" style="animation-delay:.25s" onclick="scrollToPhase('phase1')">
+            <circle cx="160" cy="80" r="10"/>
+            <text x="160" y="108" class="milestone-label">Networking</text>
+          </g>
+          <!-- NODE 3: Junior Role -->
+          <g class="map-node done" style="animation-delay:.4s" onclick="scrollToPhase('phase1')">
+            <circle cx="280" cy="40" r="10"/>
+            <text x="280" y="24" class="milestone-label">Junior Role</text>
+          </g>
+          <!-- NODE 4: Portfolio (active) -->
+          <g class="map-node active" style="animation-delay:.55s" onclick="scrollToPhase('phase2')">
+            <circle cx="400" cy="80" r="12"/>
+            <text x="400" y="108" class="milestone-label" style="fill:var(--gold)">Portfolio</text>
+          </g>
+          <!-- NODE 5: Mentorship -->
+          <g class="map-node future" style="animation-delay:.7s" onclick="scrollToPhase('phase2')">
+            <circle cx="520" cy="120" r="10"/>
+            <text x="520" y="148" class="milestone-label">Mentorship</text>
+          </g>
+          <!-- NODE 6: CDPR -->
+          <g class="map-node future" style="animation-delay:.85s" onclick="scrollToPhase('phase3')">
+            <circle cx="640" cy="80" r="10"/>
+            <text x="640" y="108" class="milestone-label">CDPR</text>
+          </g>
+          <!-- NODE 7: Senior -->
+          <g class="map-node future" style="animation-delay:1s" onclick="scrollToPhase('phase3')">
+            <circle cx="760" cy="40" r="10"/>
+            <text x="760" y="24" class="milestone-label">Senior</text>
+          </g>
+          <!-- NODE 8: Goal -->
+          <g class="map-node future" style="animation-delay:1.15s" onclick="scrollToPhase('phase3')">
+            <circle cx="880" cy="80" r="14"/>
+            <text x="880" y="108" class="milestone-label" style="fill:var(--gold);font-weight:700">BCD ★</text>
+            <text x="880" y="120" class="milestone-label" style="fill:var(--gold);font-size:6px">CDPR</text>
+          </g>
+
+          <!-- Phase labels -->
+          <text x="160" y="170" class="milestone-label" style="fill:#c0001a;font-size:9px;font-weight:700">Phase 01</text>
+          <text x="520" y="170" class="milestone-label" style="fill:#c0001a;font-size:9px">Phase 02</text>
+          <text x="820" y="170" class="milestone-label" style="fill:#f5c400;font-size:9px">Phase 03</text>
+        </svg>
+      </div>
+      <div style="text-align:center;margin-top:16px;font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;letter-spacing:.12em;">Click any node to jump to that phase ↓</div>
+    </div>
+
+  </div>
+
+  <!-- PHASES -->
+  <div class="phases-grid">
+    <div class="phase-col phase-1 reveal" id="phase1">
+      <div class="phase-img-wrap" data-parallax>
+        <img src="https://drive.google.com/uc?export=view&id=1slZjHtBTcPI7cnfkuf6OBm6vsQyexj79" alt="Networking">
+        <div class="phase-num-overlay">01</div>
+      </div>
+      <div class="phase-body-wrap">
+        <div class="phase-period">Phase 01 — 0 to 12 Months</div>
+        <div class="phase-title">Short-Term</div>
+        <div class="phase-text">
+          <p>The most important aspect to address is experience, a real and professional with measurable results. The first step has already been taken by attending the Creative Networking and Games Showcase. I approached every game studio present and offered my skills for free, with aim to gain a professional creative work experience that is measurable, evaluated and consequential.</p>
+          <p>Alongside active networking not only focused only on game industry, I have a new Instagram page focused on gaming news and marketing. This approach allows me to become more visible, credible while maintaining a consistent presence within the gamming community.</p>
+          <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" class="ig-link">▸ @pixellabmarketing_</a>
+          <p>Alongside this, I am continuously searching and applying for junior positions within the gaming industry as well as I explore different marketing job roles that would help me gain relevant experience.</p>
+          <p>And when the CDPR apprenticeship opens again this year, I will apply and be better prepared compared to last time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-col phase-2 reveal" id="phase2">
+      <div class="phase-img-wrap" data-parallax>
+        <img src="https://drive.google.com/uc?export=view&id=10ueHaOsIpdh1CNTVCIqJvXyQE_SH-N-7" alt="Networking">
+        <div class="phase-num-overlay">02</div>
+      </div>
+      <div class="phase-body-wrap">
+        <div class="phase-period">Phase 02 — 1 to 3 Years</div>
+        <div class="phase-title">Medium-Term</div>
+        <div class="phase-text">
+          <p>The focus at this stage will shift and I will need to gain greater visibility and depth. Professional experience and measurable results will allow me to develop a creative portfolio that demonstrates strategic thinking across different formats with campaign assets with decision making ability.</p>
+          <p>With the gaming industry developing, transmedia will increase. As a result I will need to have a practical and professional experience rather than continuously analysing it.</p>
+          <p>Alongside the work experience necessary, consistent networking at industry events and network building while actively searching for mentorship from creative professionals already with senior level positions will become a focus.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-col phase-3 reveal" id="phase3">
+      <div class="phase-img-wrap" data-parallax>
+        <img src="https://drive.google.com/uc?export=view&id=15jh8E3i6KzNfrbrPbouX11pr3mgjmsEv" alt="Goal">
+        <div class="phase-num-overlay">03</div>
+      </div>
+      <div class="phase-body-wrap">
+        <div class="phase-period">Phase 03 — 3 to 5 Years</div>
+        <div class="phase-title">Long-Term</div>
+        <div class="phase-text">
+          <p>CD Projekt Red is my main career goal objective, specifically a Brand Creative Director allowing me to contribute and together with the studio build and expand its IP across global markets. Shaping the entire creative identity of a franchise at a global scale is what motivates me.</p>
+          <p>Every step, every experience, every decision will be focused and tailored based on my main goal.</p>
+          <p>By this stage the goal is to have relevant professional experience which allows to demonstrate cross format brand decisions, IP-level creative strategy and measurable results that are beyond campaign assets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="final-statement">
+    <div class="final-glow"></div>
+    <div class="final-label">// Mission Objective</div>
+    <div class="final-text">
+      Every step, every experience, every decision<br>
+      will be focused and tailored based on <span class="word-one">one</span> main goal —<br>
+      <span class="word-goal">Brand Creative Director · CD Projekt Red</span>
+    </div>
+  </div>
+
+  <div class="unlock-teaser">
+    <div class="unlock-label">// Restricted — Access Required</div>
+    <a href="unlock.html" class="unlock-btn">🔒 Hire to Unlock Full Profile →</a>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('a[href]').forEach(a=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){a.addEventListener('click',e=>{e.preventDefault();document.querySelector('.page-wrap').style.transition='opacity .3s ease';document.querySelector('.page-wrap').style.opacity='0';setTimeout(()=>{window.location.href=href;},300);});}});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+function scrollToPhase(id){
+  const t=document.getElementById(id);if(!t)return;
+  window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});
+  t.classList.add('highlighted');setTimeout(()=>t.classList.remove('highlighted'),2500);
+}
+
+// Parallax on phase images
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('[data-parallax] img').forEach(img=>{
+    const wrap=img.parentElement;
+    const rect=wrap.getBoundingClientRect();
+    if(rect.bottom>0&&rect.top<window.innerHeight){
+      const pct=(rect.top/window.innerHeight);
+      img.style.transform=`translateY(${pct*20}px)`;
+    }
+  });
+},{passive:true});
+</script>
+</body>
+</html>

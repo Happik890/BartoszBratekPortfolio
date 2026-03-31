@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — Industry Developments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--white:#fff;--bg:#fff;--card-light:#f5f5f5;--card-dark:#111;--red:#c0001a;--gold:#f5c400;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @keyframes countUp{from{opacity:0}to{opacity:1}}
+  @keyframes hudLine{from{width:0}to{width:100%}}
+
+  /* BANNER */
+  .page-banner{background:var(--card-dark);padding:56px 60px;position:relative;overflow:hidden;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  .content{padding:60px;}
+
+  /* GIF STRIP */
+  .gif-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:56px;}
+  .gif-cell{position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--card-dark);}
+  .gif-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+  .gif-cell:hover img{transform:scale(1.04);}
+  .gif-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.1em;text-transform:uppercase;}
+
+  /* PANELS */
+  .panels-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:0;}
+  .article-panel{background:var(--white);border:1px solid var(--border);border-top:4px solid var(--red);box-shadow:0 4px 24px rgba(0,0,0,.06);padding:40px;position:relative;overflow:hidden;}
+  .panel-ghost{position:absolute;right:12px;bottom:12px;font-family:'Share Tech Mono',monospace;font-size:100px;color:rgba(0,0,0,.04);line-height:1;pointer-events:none;user-select:none;z-index:0;}
+  .panel-inner{position:relative;z-index:1;}
+  .dev-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px;}
+  .panel-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:var(--text);line-height:1.3;margin-bottom:22px;}
+  .stat-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+  .stat-mini{background:var(--card-dark);padding:12px 8px;text-align:center;}
+  .stat-mini-num{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:20px;color:var(--red);display:block;line-height:1.1;}
+  .stat-mini-label{font-family:'Share Tech Mono',monospace;font-size:7px;color:#fff;display:block;margin-top:4px;line-height:1.4;}
+  .panel-body{font-size:15px;line-height:1.8;color:var(--text);font-weight:300;}
+  .panel-body p{margin-bottom:16px;}
+  .panel-body p:last-child{margin-bottom:0;}
+  .gold-callout{background:var(--card-dark);border-left:3px solid var(--gold);padding:14px 16px;margin:18px 0;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--gold);line-height:1.6;}
+
+  /* ── HUD DATA WALL ── */
+  .hud-wall{background:var(--card-dark);padding:64px 60px;margin:56px 0 0;position:relative;overflow:hidden;}
+  .hud-wall::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+  .hud-wall::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+  .hud-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.24em;text-transform:uppercase;text-align:center;margin-bottom:48px;}
+  .hud-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #1e1e1e;}
+  .hud-cell{padding:36px 24px;border-right:1px solid #1e1e1e;position:relative;text-align:center;}
+  .hud-cell:last-child{border-right:none;}
+  .hud-big-num{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(32px,4vw,56px);color:var(--red);display:block;line-height:1;margin-bottom:10px;}
+  .hud-cell-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:#555;text-transform:uppercase;letter-spacing:.14em;line-height:1.5;}
+  .hud-cell-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;margin-top:6px;line-height:1.4;}
+  /* animated bar under each cell */
+  .hud-bar{height:1px;background:var(--red);margin-top:16px;width:0%;transition:width 1.4s ease;}
+  .hud-bar.animated{width:100%;}
+  /* Corner HUD decorations */
+  .hud-corner-tl,.hud-corner-br{position:absolute;width:20px;height:20px;}
+  .hud-corner-tl{top:8px;left:8px;border-top:1px solid var(--red);border-left:1px solid var(--red);}
+  .hud-corner-br{bottom:8px;right:8px;border-bottom:1px solid var(--red);border-right:1px solid var(--red);}
+
+  /* TIMELINE BAR */
+  .hud-timeline{margin-top:48px;padding:0 8px;}
+  .hud-tl-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;}
+  .hud-tl-track{position:relative;height:2px;background:#1e1e1e;margin-bottom:24px;}
+  .hud-tl-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));width:0%;transition:width 1.6s ease;}
+  .hud-tl-fill.animated{width:65%;}/* approx progress */
+  .hud-tl-nodes{display:flex;justify-content:space-between;margin-top:-10px;}
+  .hud-tl-node{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .hud-tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid #333;background:var(--card-dark);}
+  .hud-tl-dot.done{background:var(--red);border-color:var(--red);box-shadow:0 0 8px var(--red);}
+  .hud-tl-dot.active{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold);}
+  .hud-tl-text{font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;text-transform:uppercase;letter-spacing:.1em;text-align:center;}
+  .hud-tl-dot.done+.hud-tl-text,.hud-tl-dot.active+.hud-tl-text{color:#888;}
+
+  /* CITATIONS */
+  .citations-wrap{padding:0 60px 60px;}
+  .citations-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;border-top:1px solid var(--border);padding:14px 0;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;text-align:left;}
+  .citations-toggle:hover{color:var(--red);}
+  .citations-arrow{transition:transform .3s;font-size:12px;}
+  .citations-toggle.open .citations-arrow{transform:rotate(180deg);}
+  .citations-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+  .citations-body.open{max-height:300px;}
+  .cite-list{padding:12px 0 16px;display:flex;flex-direction:column;gap:8px;}
+  .cite-row{display:flex;gap:10px;}
+  .cite-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);white-space:nowrap;}
+  .cite-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:#888;line-height:1.5;}
+
+  /* FOOTER */
+  footer{background:var(--black);border-top:1px solid #222;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#888;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:1024px){.content{padding:40px;}.hud-wall{padding:48px 40px;}.citations-wrap{padding:0 40px 48px;}}
+  @media(max-width:768px){.content{padding:24px 20px;}.panels-grid{grid-template-columns:1fr;}.gif-strip{grid-template-columns:1fr;}.stat-mini-row{grid-template-columns:1fr;}.hud-grid{grid-template-columns:1fr 1fr;}.hud-wall{padding:40px 20px;}.citations-wrap{padding:0 20px 40px;}.page-banner{padding:48px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-banner">
+    <div class="banner-num">03</div>
+    <div class="banner-inner">
+      <h1>Industry Developments</h1>
+      <div class="banner-sub">The world I am entering — and how I understand it.</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- GIF STRIP -->
+    <div class="gif-strip reveal">
+      <div class="gif-cell">
+        <img src="https://drive.google.com/uc?export=view&id=1yTkmDG91tIKswWAFpOtd5GbEeNS9IjJx" alt="The Witcher">
+        <div class="gif-label">The Witcher · Franchise Universe</div>
+      </div>
+      <div class="gif-cell">
+        <img src="https://drive.google.com/uc?export=view&id=1WYfGbRQBInMV6qpC_-HvLY3zIe1bNwMz" alt="The Witcher">
+        <div class="gif-label">The Witcher · Cultural Impact</div>
+      </div>
+      <div class="gif-cell">
+        <img src="https://drive.google.com/uc?export=view&id=1ZA50bsqBofnIyZm6lg4E8DzWGkcDkxM7" alt="Cyberpunk Edgerunners">
+        <div class="gif-label">Cyberpunk · Edgerunners · Netflix</div>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <div class="panels-grid">
+      <!-- PANEL 1 -->
+      <div class="article-panel reveal">
+        <div class="panel-ghost">01</div>
+        <div class="panel-inner">
+          <div class="dev-tag">Development 01 — IP &amp; Franchise Strategy</div>
+          <div class="panel-title">Game industry has fundamentally changed, franchises are no longer commercial operations</div>
+          <div class="stat-mini-row">
+            <div class="stat-mini"><span class="stat-mini-num" data-target="100" data-suffix="M+">0</span><span class="stat-mini-label">PLN — Witcher products 2022–25</span></div>
+            <div class="stat-mini"><span class="stat-mini-num" data-target="562" data-suffix="%">0</span><span class="stat-mini-label">Book revenue up post Netflix</span></div>
+            <div class="stat-mini"><span class="stat-mini-num" data-target="60" data-suffix="M">0</span><span class="stat-mini-label">Witcher 3 copies sold</span></div>
+          </div>
+          <div class="panel-body">
+            <p>Games are no longer just a product. They are a foundation of an entire brand universe and commonly also a studio image. Understanding this trend allows businesses to win culturally and financially, achieving greater results compared to a studio with only game-focused strategy.</p>
+            <div class="gold-callout">CD Projekt Red: Between 2022 and 2025, CDPR's The Witcher franchise related products such as toys, books and tv series generated over 100 million PLN, while Cyberpunk 2077 merchandise brought the company over 70 million PLN.</div>
+            <p>Over 170 million PLN additional revenue acquired entirely outside the games themselves, demonstrating a great IP management. The Witcher's series launch on Netflix impacted the brand at a greater scale with physical book revenue for the franchise increased by 562% in two weeks since the premiere, further demonstrating how a single franchise expansion can impact the ecosystem of products.</p>
+            <p>Cyberpunk 2077 has followed the same pattern with a release of the Cyberpunk: Edgerunners anime series on Netflix. With the release of the anime series, the game title increased the amount of players while reaching 20 million copies sold. CDPR's CFO has accredited the anime as proof that risks and opportunities with franchise expansion was the right direction.</p>
+            <p>The Witcher 3 has now sold 60 million copies with an increasing number due to sustained cultural presence with transmedia expansion support.</p>
+            <p>With a goal to become a brand creative director within the gaming industry it is crucial to understand the environment and it trends as it redefines the role's position. It is insufficient for a big gaming studio to manage a game's visual identity or campaign assets alone while the industry changes. The position requires to think across different formats above games such as animation or live events with the IP maintaining consistency while understanding the significance of how narrative decisions on one channel affects audience perception across all other channels.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2 -->
+      <div class="article-panel reveal">
+        <div class="panel-ghost">02</div>
+        <div class="panel-inner">
+          <div class="dev-tag">Development 02 — AI Integration &amp; Brand Trust</div>
+          <div class="panel-title">The introduction of AI has changed the market as well as job roles in marketing and the gaming industry</div>
+          <div class="stat-mini-row">
+            <div class="stat-mini"><span class="stat-mini-num" data-target="60" data-suffix="%+">0</span><span class="stat-mini-label">Marketers use AI daily 2025</span></div>
+            <div class="stat-mini"><span class="stat-mini-num" data-target="84" data-suffix="%">0</span><span class="stat-mini-label">Report AI increase since 2025</span></div>
+            <div class="stat-mini"><span class="stat-mini-num" data-target="97" data-suffix="%+">0</span><span class="stat-mini-label">Companies AI-edit content</span></div>
+          </div>
+          <div class="panel-body">
+            <div class="gold-callout">90% of marketers use AI for text based tasks, with the most common usage for idea generation, draft creation and writing. AI has impacted the workflow and become standardised.</div>
+            <p>It is no longer a topic of debate but an expectation and required skill by companies. Over 60% of marketers currently use AI tools daily, whereas only 34% used it in 2024, and 84% report increase of AI usage since 2025. It is crucial to understand what AI is being used for and how it affects the results.</p>
+            <p>Despite AI efficiency, there is an increasing conflict between public positioning and private practice. Many businesses position themselves in the market as committed and human-led creative practices while discretely integrating AI across productions strategy. Over 97% of companies edit and review content before publishing with the use of AI, demonstrating the standardised practices within the industry.</p>
+            <p>Due to the increasing gap of companies' public, ethical and responsible use of AI is an important discussion point within the industry. Gaming industry has also been greatly impacted by the AI with increasing number of gamers backlashing when a studio incorporates AI that feels inauthentic and exploitative. As a result, studios therefore face a challenge of AI utilisation while preserving the creative credibility audience expect.</p>
+            <p>With the objective to start at the junior level, entering the industry, understanding AI and how to use it is a necessary skill rather than a skill differentiator. With the focus on ongoing changes and consumer perception it is crucial to understand how to maintain the brand voice, creativeness and audience trust in workflow that requires adoption of new efficient technologies.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- HUD DATA WALL -->
+  <div class="hud-wall reveal" id="hudWall">
+    <div class="hud-corner-tl"></div>
+    <div class="hud-corner-br"></div>
+    <div class="hud-tag">// Key Industry Metrics — Franchise &amp; AI Data 2022–2025</div>
+    <div class="hud-grid">
+      <div class="hud-cell">
+        <span class="hud-big-num" data-target="170" data-suffix="M PLN">0</span>
+        <div class="hud-cell-label">Additional Revenue<br>Outside Games</div>
+        <div class="hud-cell-sub">CDPR IP — Witcher + Cyberpunk<br>merchandise &amp; franchise</div>
+        <div class="hud-bar"></div>
+      </div>
+      <div class="hud-cell">
+        <span class="hud-big-num" data-target="20" data-suffix="M">0</span>
+        <div class="hud-cell-label">Cyberpunk 2077 Sales<br>Post Edgerunners Anime</div>
+        <div class="hud-cell-sub">Single Netflix release drove<br>measurable game sales spike</div>
+        <div class="hud-bar"></div>
+      </div>
+      <div class="hud-cell">
+        <span class="hud-big-num" data-target="90" data-suffix="%">0</span>
+        <div class="hud-cell-label">Marketers Using AI<br>For Text Tasks</div>
+        <div class="hud-cell-sub">Idea generation · drafting<br>writing · now standardised</div>
+        <div class="hud-bar"></div>
+      </div>
+      <div class="hud-cell">
+        <span class="hud-big-num" data-target="34" data-suffix="%→60%">0</span>
+        <div class="hud-cell-label">Daily AI Tool Usage<br>2024 vs 2025</div>
+        <div class="hud-cell-sub">From minority to majority<br>in under 12 months</div>
+        <div class="hud-bar"></div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE TIMELINE -->
+    <div class="hud-timeline">
+      <div class="hud-tl-label">// CDPR Franchise Expansion Timeline</div>
+      <div class="hud-tl-track"><div class="hud-tl-fill" id="tlFill"></div></div>
+      <div class="hud-tl-nodes">
+        <div class="hud-tl-node"><div class="hud-tl-dot done"></div><div class="hud-tl-text">Witcher 3<br>Launch</div></div>
+        <div class="hud-tl-node"><div class="hud-tl-dot done"></div><div class="hud-tl-text">Netflix<br>Series</div></div>
+        <div class="hud-tl-node"><div class="hud-tl-dot done"></div><div class="hud-tl-text">Cyberpunk<br>2077</div></div>
+        <div class="hud-tl-node"><div class="hud-tl-dot done"></div><div class="hud-tl-text">Edgerunners<br>Anime</div></div>
+        <div class="hud-tl-node"><div class="hud-tl-dot active"></div><div class="hud-tl-text">170M PLN<br>Revenue</div></div>
+        <div class="hud-tl-node"><div class="hud-tl-dot"></div><div class="hud-tl-text">Next<br>Chapter</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CITATIONS -->
+  <div class="citations-wrap">
+    <button class="citations-toggle" id="citeToggle" onclick="toggleCite()">
+      Sources &amp; Citations<span class="citations-arrow">▾</span>
+    </button>
+    <div class="citations-body" id="citeBody">
+      <div class="cite-list">
+        <div class="cite-row"><span class="cite-num">[01]</span><span class="cite-text">CD Projekt Red Annual Report 2022–2025 — Franchise Merchandise Revenue Data</span></div>
+        <div class="cite-row"><span class="cite-num">[02]</span><span class="cite-text">Netflix / Witcher Series Launch — Physical Book Sales Impact, Publisher Weekly Report</span></div>
+        <div class="cite-row"><span class="cite-num">[03]</span><span class="cite-text">CDPR CFO Statement — Cyberpunk: Edgerunners Anime &amp; Game Sales Correlation 2022</span></div>
+        <div class="cite-row"><span class="cite-num">[04]</span><span class="cite-text">Salesforce State of Marketing Report 2025 — AI Adoption in Marketing Workflows</span></div>
+        <div class="cite-row"><span class="cite-num">[05]</span><span class="cite-text">HubSpot Marketing AI Trends 2025 — Daily AI Tool Usage Among Marketing Professionals</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('a[href]').forEach(a=>{const href=a.getAttribute('href');if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){a.addEventListener('click',e=>{e.preventDefault();document.querySelector('.page-wrap').style.transition='opacity .3s ease';document.querySelector('.page-wrap').style.opacity='0';setTimeout(()=>{window.location.href=href;},300);});}});
+
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+// COUNT UP (panels)
+function countUp(el,target,suffix,dur){let s=0;const step=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/dur,1);const e2=1-Math.pow(1-p,3);el.textContent=Math.floor(e2*target)+suffix;if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);}
+const statObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){const el=x.target;countUp(el,parseInt(el.dataset.target),el.dataset.suffix||'',1500);statObs.unobserve(el);}});},{threshold:.5});
+document.querySelectorAll('.stat-mini-num[data-target]').forEach(s=>statObs.observe(s));
+
+// HUD count up + bars + timeline
+const hudObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){
+  document.querySelectorAll('.hud-big-num[data-target]').forEach(el=>countUp(el,parseInt(el.dataset.target),el.dataset.suffix||'',1800));
+  document.querySelectorAll('.hud-bar').forEach((b,i)=>setTimeout(()=>b.classList.add('animated'),i*200));
+  const tlFill=document.getElementById('tlFill');if(tlFill)setTimeout(()=>tlFill.classList.add('animated'),400);
+  hudObs.unobserve(x.target);
+}});},{threshold:.2});
+const hudWall=document.getElementById('hudWall');if(hudWall)hudObs.observe(hudWall);
+
+function toggleCite(){const btn=document.getElementById('citeToggle');const body=document.getElementById('citeBody');btn.classList.toggle('open');body.classList.toggle('open');}
+</script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — Achievements &amp; Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--white:#fff;--bg:#fff;--card-light:#f5f5f5;--card-dark:#111;--red:#c0001a;--gold:#f5c400;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* BANNER */
+  .page-banner{background:var(--card-dark);padding:56px 60px;position:relative;overflow:hidden;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  .content{padding:60px;}
+  .section-heading{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+  .section-heading h2{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;color:var(--red);text-transform:uppercase;letter-spacing:.14em;white-space:nowrap;}
+  .section-heading .rule{flex:1;height:1px;background:var(--red);}
+
+  /* ── CAMPAIGN CARDS ── */
+  .campaign-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:72px;}
+  .card-scene{perspective:1100px;}
+  /* Fixed height so both faces match */
+  .card-flip-wrap{position:relative;width:100%;height:540px;transition:transform .7s ease;transform-style:preserve-3d;cursor:pointer;}
+  .card-scene.flipped .card-flip-wrap{transform:rotateY(180deg);}
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  .card-face.back{transform:rotateY(180deg);}
+
+  /* FRONT */
+  .card-front-inner{background:#fff;border:1px solid var(--border);border-top:4px solid var(--red);height:100%;display:flex;flex-direction:column;transition:box-shadow .3s;}
+  .card-scene:hover .card-front-inner{box-shadow:0 12px 36px rgba(0,0,0,.12);}
+  /* Single hero image */
+  .card-hero-img{height:190px;overflow:hidden;position:relative;background:var(--card-light);flex-shrink:0;}
+  .card-hero-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+  .card-front-inner:hover .card-hero-img img{transform:scale(1.04);}
+  /* View all button */
+  .view-all-btn{position:absolute;bottom:8px;right:8px;background:rgba(8,8,8,.75);color:#fff;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.1em;padding:5px 10px;border:none;cursor:pointer;transition:background .2s;text-transform:uppercase;}
+  .view-all-btn:hover{background:var(--red);}
+  .card-body{padding:18px 20px;display:flex;flex-direction:column;flex:1;}
+  .card-year{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.12em;margin-bottom:6px;}
+  .card-client{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:19px;color:var(--text);margin-bottom:8px;}
+  .card-badge{display:inline-block;background:var(--gold);color:var(--black);font-family:'Share Tech Mono',monospace;font-size:8px;padding:3px 9px;border-radius:2px;margin-bottom:10px;}
+  .card-text{font-size:13px;line-height:1.7;color:var(--muted);flex:1;}
+  .flip-hint{display:flex;align-items:center;gap:6px;margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--red);letter-spacing:.08em;}
+  .flip-hint span{animation:blink 1.4s ease-in-out infinite;}
+
+  /* BACK */
+  .card-back-inner{background:var(--card-dark);border-top:4px solid var(--gold);height:100%;display:flex;flex-direction:column;overflow:hidden;}
+  .back-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;flex:1;min-height:0;}
+  .back-img-grid img{width:100%;height:100%;object-fit:cover;display:block;}
+  .back-label-bar{padding:14px 18px;background:rgba(0,0,0,.5);flex-shrink:0;}
+  .back-card-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;color:#fff;}
+  .back-card-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--gold);margin-top:4px;letter-spacing:.08em;}
+  .back-flip-hint{font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,.4);margin-top:6px;letter-spacing:.08em;}
+
+  /* ── CERTS + SKILLS ── */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-bottom:72px;}
+  .col-heading{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:20px;color:var(--text);margin-bottom:20px;}
+  .cert-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+  .cert-row{border-left:3px solid var(--gold);border:1px solid var(--border);border-left:3px solid var(--gold);padding:12px 16px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s;}
+  .cert-row:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .cert-thumb{width:52px;height:52px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;}
+  .cert-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cert-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;color:var(--text);}
+
+  /* LinkedIn CAROUSEL */
+  .linkedin-heading{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .linkedin-heading::after{content:'';flex:1;height:1px;background:var(--border);}
+  .cert-carousel{position:relative;background:var(--card-light);border:1px solid var(--border);overflow:hidden;}
+  .cert-carousel-track{display:flex;transition:transform .4s ease;}
+  .cert-carousel-track img{width:100%;flex-shrink:0;aspect-ratio:4/3;object-fit:cover;display:block;}
+  .cert-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-top:1px solid var(--border);}
+  .cert-nav-btn{background:none;border:1px solid var(--border);color:var(--text);width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:border-color .2s,color .2s;}
+  .cert-nav-btn:hover{border-color:var(--red);color:var(--red);}
+  .cert-counter{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
+  .cert-expand-btn{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--red);background:none;border:none;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;padding:0;}
+  .cert-expand-btn:hover{text-decoration:underline;}
+
+  /* Skills */
+  .skill-bars{display:flex;flex-direction:column;gap:18px;}
+  .skill-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
+  .skill-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:var(--text);}
+  .skill-level{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);}
+  .skill-track{width:100%;height:5px;background:#eee;border-radius:3px;}
+  .skill-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--red),var(--gold));width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);position:relative;}
+  .skill-fill::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:9px;height:9px;background:var(--gold);border-radius:50%;box-shadow:0 0 7px var(--gold);opacity:0;transition:opacity .3s 1s;}
+  .skill-fill.animated::after{opacity:1;}
+
+  /* CV */
+  .cv-section{background:var(--card-dark);padding:56px 60px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+  .cv-text h3{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:26px;color:#fff;margin-bottom:6px;}
+  .cv-text p{font-family:'Share Tech Mono',monospace;font-size:10px;color:#666;letter-spacing:.06em;}
+  .cv-btns{display:flex;gap:16px;flex-wrap:wrap;}
+  .cv-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .2s;border:2px solid;}
+  .cv-btn.standard{background:var(--red);color:#fff;border-color:var(--red);}
+  .cv-btn.standard:hover{background:transparent;color:var(--red);}
+  .cv-btn.creative{background:transparent;color:var(--gold);border-color:var(--gold);}
+  .cv-btn.creative:hover{background:var(--gold);color:var(--black);}
+  .cv-btn svg{width:16px;height:16px;fill:currentColor;}
+
+  /* LIGHTBOX */
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+  .lightbox.open{display:flex;}
+  .lb-img-wrap{position:relative;max-width:90vw;max-height:80vh;display:flex;align-items:center;justify-content:center;}
+  .lb-img-wrap img{max-width:100%;max-height:80vh;object-fit:contain;border:2px solid var(--red);display:block;}
+  .lb-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;border:1px solid #333;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:background .2s;z-index:2;}
+  .lb-btn:hover{background:var(--red);}
+  .lb-btn.lb-prev{left:-50px;}
+  .lb-btn.lb-next{right:-50px;}
+  .lb-close{position:fixed;top:20px;right:28px;color:#fff;font-size:32px;cursor:pointer;background:none;border:none;font-family:'Rajdhani',sans-serif;z-index:10000;}
+  .lb-close:hover{color:var(--red);}
+  .lb-counter{font-family:'Share Tech Mono',monospace;font-size:11px;color:#666;margin-top:14px;letter-spacing:.1em;}
+
+  /* FOOTER */
+  footer{background:var(--black);border-top:1px solid #222;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#888;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:1024px){.content{padding:40px;}.cv-section{padding:48px 40px;}}
+  @media(max-width:768px){.content{padding:24px 20px;}.campaign-cards{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;gap:40px;}.cv-section{padding:40px 20px;flex-direction:column;}.cv-btns{width:100%;}.cv-btn{flex:1;justify-content:center;}.page-banner{padding:48px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}.lb-btn.lb-prev{left:-16px;}.lb-btn.lb-next{right:-16px;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-banner">
+    <div class="banner-num">02</div>
+    <div class="banner-inner">
+      <h1>Achievements &amp; Skills</h1>
+      <div class="banner-sub">Three years. Three live briefs. Three winning campaigns.</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-heading reveal"><h2>Campaign Record</h2><div class="rule"></div></div>
+    <div class="campaign-cards">
+
+      <!-- CARD 1: Tribal -->
+      <div class="card-scene reveal" id="c0">
+        <div class="card-flip-wrap" onclick="flipCard('c0')">
+          <div class="card-face front">
+            <div class="card-front-inner">
+              <div class="card-hero-img">
+                <img src="https://drive.google.com/uc?export=view&id=1YhHR5WnFpjFJQthu1d-aTBsv3ab23Jyp" alt="Naturally Tribal">
+                <button class="view-all-btn" onclick="event.stopPropagation();openLb('tribal',0)">View all images ›</button>
+              </div>
+              <div class="card-body">
+                <div class="card-year">YEAR 01</div>
+                <div class="card-client">Naturally Tribal Skincare</div>
+                <div class="card-badge">#1 Selected &amp; Implemented</div>
+                <div class="card-text">Multi-platform social media campaign for an ethical skincare brand offering natural ingredients products with a cultural heritage focus. Our idea execution included social media content and video concepts with fresh brand strategy tailored towards the target demographic. Our campaign was selected as the best and the campaign concept were implemented into the brand's marketing activities.</div>
+                <div class="flip-hint"><span>▸</span> Flip for more campaign images</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-face back">
+            <div class="card-back-inner">
+              <div class="back-img-grid">
+                <img src="https://drive.google.com/uc?export=view&id=10auxtqRYMuX3B0RQyfBAa2tHAPON1WtC" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1uvMd1S9_V4tmOUBbjLNB8USGQJmaHHjw" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1tQx55JwXQEpuq0F3qNewoPB8slwMjHPP" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1yB-DGR65BsLStRZQvZ4ePURSRmRib3Y_" alt="">
+              </div>
+              <div class="back-label-bar">
+                <div class="back-card-title">Naturally Tribal Skincare — Year 01</div>
+                <div class="back-card-sub">Campaign selected &amp; implemented by the client</div>
+                <div class="back-flip-hint">▸ Click to flip back</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Police -->
+      <div class="card-scene reveal" id="c1">
+        <div class="card-flip-wrap" onclick="flipCard('c1')">
+          <div class="card-face front">
+            <div class="card-front-inner">
+              <div class="card-hero-img">
+                <img src="https://drive.google.com/uc?export=view&id=10DmEiv3puZ7l3x_eZrXgGMQl7U3z5Gzn" alt="Police Campaign">
+                <button class="view-all-btn" onclick="event.stopPropagation();openLb('police',0)">View all images ›</button>
+              </div>
+              <div class="card-body">
+                <div class="card-year">YEAR 02</div>
+                <div class="card-client">Police, Fire &amp; Crime Commissioner</div>
+                <div class="card-badge">Campaign Selected &amp; Executed</div>
+                <div class="card-text">Immersive virtual reality campaign with aim to raise awareness around burglary prevention. The campaign focused on creation of an interactive VR experience allowing users to observe and identify real scenarios where their belongings are most vulnerable. I also independently developed a website to document the project while showcasing my individual contributions.</div>
+                <div class="flip-hint"><span>▸</span> Flip for more campaign images</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-face back">
+            <div class="card-back-inner">
+              <div class="back-img-grid">
+                <img src="https://drive.google.com/uc?export=view&id=11TAVdRuGBkyZjfviELGc83Lml1hEkqwM" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1ZJMIgcnvwbM6hOaO20sHZHZd5c_TbjPz" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=17TSKZ0OEdssD328Q5RpxBPqnzUCRHzZ7" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1KAZ3JPmxWVjRieG8q0jMYdtYKYdzZcUf" alt="">
+              </div>
+              <div class="back-label-bar">
+                <div class="back-card-title">Police, Fire &amp; Crime Commissioner — Year 02</div>
+                <div class="back-card-sub">VR awareness campaign — selected &amp; executed</div>
+                <div class="back-flip-hint">▸ Click to flip back</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: Channel 4 -->
+      <div class="card-scene reveal" id="c2">
+        <div class="card-flip-wrap" onclick="flipCard('c2')">
+          <div class="card-face front">
+            <div class="card-front-inner">
+              <div class="card-hero-img">
+                <img src="https://drive.google.com/uc?export=view&id=1bsJ6yAB8HpdgGZ4HPEjZUR1SlSSZU2Td" alt="Channel 4">
+                <button class="view-all-btn" onclick="event.stopPropagation();openLb('ch4',0)">View all images ›</button>
+              </div>
+              <div class="card-body">
+                <div class="card-year">YEAR 03</div>
+                <div class="card-client">Channel 4 × B Corp</div>
+                <div class="card-badge">Winning Concept</div>
+                <div class="card-text">Live brief from Channel 4 focused on raising awareness of B Corp. Our idea based on the research conducted involved renewal of "Come Dine With Me" with a "B-licious edition" twist in partnership with B corp certified brand Gousto. Our mission was to design and position sustainable eating as an entertaining and accessible. The campaign was selected as the winning concept.</div>
+                <div class="flip-hint"><span>▸</span> Flip to see the team &amp; pitch</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-face back">
+            <div class="card-back-inner">
+              <div class="back-img-grid">
+                <img src="https://drive.google.com/uc?export=view&id=1mqIj_hc6p89PseazOCdqqTiZfw5U3Buq" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1Qz2o8BTWJM6gnjzpczb9NeIfV4JhTBvC" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1SiEh-Enwy-czePM9R_HmqDTCW5c4ip83" alt="">
+                <img src="https://drive.google.com/uc?export=view&id=1cbaMsfYyRx062M3sLVTvp0n_tP03nP4Z" alt="">
+              </div>
+              <div class="back-label-bar">
+                <div class="back-card-title">Channel 4 × B Corp — Year 03</div>
+                <div class="back-card-sub">Winning concept — team &amp; pitch day</div>
+                <div class="back-flip-hint">▸ Click to flip back</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end campaign cards -->
+
+    <!-- CERTS + SKILLS -->
+    <div class="two-col">
+      <div class="reveal">
+        <div class="col-heading">Recognitions &amp; Certificates</div>
+        <div class="cert-list">
+          <div class="cert-row">
+            <div class="cert-thumb"><img src="https://drive.google.com/uc?export=view&id=155vn1o5r0wRj-x9TWaLK85GkAmtRmjZ8" alt="Award"></div>
+            <span class="cert-name">Student of the Year Award – University of Northampton</span>
+          </div>
+          <div class="cert-row">
+            <div class="cert-thumb"><img src="https://drive.google.com/uc?export=view&id=1NRghfQzAXK-mj372lGZti1SlWKAwt0Kt" alt="DMI"></div>
+            <span class="cert-name">Digital Marketing Institute (DMI) Certification</span>
+          </div>
+          <div class="cert-row">
+            <div class="cert-thumb"><img src="https://drive.google.com/uc?export=view&id=1iLszSA_dxep1PDrP3tYNpgnajxUQ1Hje" alt="Employability+"></div>
+            <span class="cert-name">Employability Plus Certificate</span>
+          </div>
+        </div>
+        <div class="linkedin-heading">LinkedIn Learning Certificates</div>
+        <div class="cert-carousel">
+          <div class="cert-carousel-track" id="certTrack">
+            <img src="https://drive.google.com/uc?export=view&id=1X0yIvp9PTZmNe5j_bax1Fm3WLfaKd8Ug" alt="Cert 1">
+            <img src="https://drive.google.com/uc?export=view&id=1XDcRedkSytbnn-1k9iu_lCuoaM9KRJlH" alt="Cert 2">
+            <img src="https://drive.google.com/uc?export=view&id=1f8KxG3GO8sBmTkJ7pycFUI4exLcHuj2Y" alt="Cert 3">
+            <img src="https://drive.google.com/uc?export=view&id=1veilMAp8by2s-SrJWIK7FmOUga7M6h9t" alt="Cert 4">
+            <img src="https://drive.google.com/uc?export=view&id=1swwIoAPD5odkb9gEMlZpmce_dLmni95i" alt="Cert 5">
+            <img src="https://drive.google.com/uc?export=view&id=1cVrcXEU489Yhom9DhQTuwig9lZZYEgMe" alt="Cert 6">
+            <img src="https://drive.google.com/uc?export=view&id=1QU9_aR6aZrhcLM0h6V9gUuxVKjIIajTQ" alt="Cert 7">
+            <img src="https://drive.google.com/uc?export=view&id=1txi54JfIlO5Tplb4b20BvKpP_qiF3CcJ" alt="Cert 8">
+            <img src="https://drive.google.com/uc?export=view&id=1_gPVY95qV6PUqXd4TAjbbwlJb-HAJaw0" alt="Cert 9">
+            <img src="https://drive.google.com/uc?export=view&id=17UDFTysEMWp0LEeEJSfQwlqT_MuSY51A" alt="Cert 10">
+            <img src="https://drive.google.com/uc?export=view&id=1vGx84_1lxAhQB36R-r_BOP-FwgguC34c" alt="Cert 11">
+            <img src="https://drive.google.com/uc?export=view&id=1t_5ZaZzGj0VsIViQsVWyIgANpmXqGhOp" alt="Cert 12">
+            <img src="https://drive.google.com/uc?export=view&id=1CaZCGHIWWvmKtNsQq7dLq7JxZdDk0FCx" alt="Cert 13">
+            <img src="https://drive.google.com/uc?export=view&id=10PfrgKEYooXyTo8pFDeaIrWF5n5AlH5I" alt="Cert 14">
+            <img src="https://drive.google.com/uc?export=view&id=1wAUv4h1-3wF0I6TNSvve8ZzKyFcx2Qw4" alt="Cert 15">
+          </div>
+          <div class="cert-nav">
+            <button class="cert-nav-btn" onclick="certSlide(-1)">‹</button>
+            <span class="cert-counter" id="certCounter">1 / 15</span>
+            <button class="cert-expand-btn" onclick="openLb('linkedin',certIdx)">View full size ↗</button>
+            <button class="cert-nav-btn" onclick="certSlide(1)">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="col-heading">Core Skills</div>
+        <div class="skill-bars">
+          <div><div class="skill-header"><span class="skill-name">Creative Strategy</span><span class="skill-level">Advanced</span></div><div class="skill-track"><div class="skill-fill" data-target="90"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Brand Narrative</span><span class="skill-level">Advanced</span></div><div class="skill-track"><div class="skill-fill" data-target="82"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Campaign Development</span><span class="skill-level">Advanced</span></div><div class="skill-track"><div class="skill-fill" data-target="85"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Digital Content Production</span><span class="skill-level">Proficient</span></div><div class="skill-track"><div class="skill-fill" data-target="78"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Research</span><span class="skill-level">Proficient</span></div><div class="skill-track"><div class="skill-fill" data-target="80"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Teamwork</span><span class="skill-level">Advanced</span></div><div class="skill-track"><div class="skill-fill" data-target="92"></div></div></div>
+          <div><div class="skill-header"><span class="skill-name">Attention to Detail</span><span class="skill-level">Advanced</span></div><div class="skill-track"><div class="skill-fill" data-target="87"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CV -->
+  <div class="cv-section">
+    <div class="cv-text">
+      <h3>Download My CV</h3>
+      <p>Click a button to download the full character profile</p>
+    </div>
+    <div class="cv-btns">
+      <a href="https://drive.google.com/uc?export=download&id=1cmyA21GtAxd9g-CiHS3fnoaZzf3b1uRS" class="cv-btn standard" download>
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Text CV
+      </a>
+      <a href="https://drive.google.com/uc?export=download&id=1K_FMK6KcZ_QfrlhNoHRu8Vs2CeYwOqun" class="cv-btn creative" download>
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>Creative CV
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">×</button>
+  <div class="lb-img-wrap">
+    <button class="lb-btn lb-prev" onclick="lbNav(-1)">‹</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-btn lb-next" onclick="lbNav(1)">›</button>
+  </div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<script>
+// PAGE TRANSITION
+document.querySelectorAll('a[href]').forEach(a=>{
+  const href=a.getAttribute('href');
+  if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){
+    a.addEventListener('click',e=>{e.preventDefault();document.querySelector('.page-wrap').style.transition='opacity .3s ease';document.querySelector('.page-wrap').style.opacity='0';setTimeout(()=>{window.location.href=href;},300);});
+  }
+});
+
+// REVEAL
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+// SKILL BARS
+const skillObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.width=x.target.dataset.target+'%';x.target.classList.add('animated');skillObs.unobserve(x.target);}});},{threshold:.1});
+document.querySelectorAll('.skill-fill').forEach(f=>skillObs.observe(f));
+
+// CARD FLIP — toggle both ways
+function flipCard(id){document.getElementById(id).classList.toggle('flipped');}
+
+// CERT CAROUSEL
+let certIdx=0;const certTotal=15;
+function certSlide(dir){
+  certIdx=(certIdx+dir+certTotal)%certTotal;
+  document.getElementById('certTrack').style.transform=`translateX(-${certIdx*100}%)`;
+  document.getElementById('certCounter').textContent=`${certIdx+1} / ${certTotal}`;
+}
+
+// LIGHTBOX DATA
+const galleries={
+  tribal:['1YhHR5WnFpjFJQthu1d-aTBsv3ab23Jyp','10auxtqRYMuX3B0RQyfBAa2tHAPON1WtC','1uvMd1S9_V4tmOUBbjLNB8USGQJmaHHjw','1tQx55JwXQEpuq0F3qNewoPB8slwMjHPP','1yB-DGR65BsLStRZQvZ4ePURSRmRib3Y_'],
+  police:['10DmEiv3puZ7l3x_eZrXgGMQl7U3z5Gzn','11TAVdRuGBkyZjfviELGc83Lml1hEkqwM','1ZJMIgcnvwbM6hOaO20sHZHZd5c_TbjPz','17TSKZ0OEdssD328Q5RpxBPqnzUCRHzZ7','1KAZ3JPmxWVjRieG8q0jMYdtYKYdzZcUf','1_R0w_dn6Zo_4IVxwntz6pWR7FjMhgtC_','1OOASjXFHEsvQGBQxPHngpF3biMGfAlLq','1df2DiQTyvbUL07iLC2k5RttSk5K60P0U'],
+  ch4:['1bsJ6yAB8HpdgGZ4HPEjZUR1SlSSZU2Td','1FiTQdCRWA3XnhHS3bUnvBbsn7_PbKbC4','1l68Eiug6e0UoRWqFLey1YOxoa3d-EJHN','1iJUx1pxgoAa26i4mX6BK8-Lqzw_-GA8D','1sYRaoWM71bywVUv0sV_dBwcYwCi0VKhJ','1mqIj_hc6p89PseazOCdqqTiZfw5U3Buq','1Qz2o8BTWJM6gnjzpczb9NeIfV4JhTBvC','1SiEh-Enwy-czePM9R_HmqDTCW5c4ip83','1cbaMsfYyRx062M3sLVTvp0n_tP03nP4Z'],
+  linkedin:['1X0yIvp9PTZmNe5j_bax1Fm3WLfaKd8Ug','1XDcRedkSytbnn-1k9iu_lCuoaM9KRJlH','1f8KxG3GO8sBmTkJ7pycFUI4exLcHuj2Y','1veilMAp8by2s-SrJWIK7FmOUga7M6h9t','1swwIoAPD5odkb9gEMlZpmce_dLmni95i','1cVrcXEU489Yhom9DhQTuwig9lZZYEgMe','1QU9_aR6aZrhcLM0h6V9gUuxVKjIIajTQ','1txi54JfIlO5Tplb4b20BvKpP_qiF3CcJ','1_gPVY95qV6PUqXd4TAjbbwlJb-HAJaw0','17UDFTysEMWp0LEeEJSfQwlqT_MuSY51A','1vGx84_1lxAhQB36R-r_BOP-FwgguC34c','1t_5ZaZzGj0VsIViQsVWyIgANpmXqGhOp','1CaZCGHIWWvmKtNsQq7dLq7JxZdDk0FCx','10PfrgKEYooXyTo8pFDeaIrWF5n5AlH5I','1wAUv4h1-3wF0I6TNSvve8ZzKyFcx2Qw4']
+};
+let lbGallery=[],lbPos=0;
+function openLb(gallery,startIdx){
+  lbGallery=galleries[gallery];lbPos=startIdx;
+  updateLb();document.getElementById('lightbox').classList.add('open');
+}
+function updateLb(){
+  document.getElementById('lbImg').src=`https://drive.google.com/uc?export=view&id=${lbGallery[lbPos]}`;
+  document.getElementById('lbCounter').textContent=`${lbPos+1} / ${lbGallery.length}`;
+}
+function lbNav(dir){lbPos=(lbPos+dir+lbGallery.length)%lbGallery.length;updateLb();}
+function closeLb(){document.getElementById('lightbox').classList.remove('open');}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLb();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')lbNav(-1);if(e.key==='ArrowRight')lbNav(1);});
+</script>
+</body>
+</html>

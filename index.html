@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Bratek — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--white:#fff;--bg:#fff;--card-light:#f5f5f5;--card-dark:#111;--red:#c0001a;--gold:#f5c400;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+  /* PAGE TRANSITION */
+  .page-wrap{opacity:0;animation:pageIn .45s ease .05s forwards;}
+  @keyframes pageIn{to{opacity:1;}}
+  a[data-transition]{position:relative;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* ── HERO SPLASH ── */
+  .hero-splash{position:relative;width:100%;height:100vh;min-height:580px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:#080808;}
+  .splash-bg{
+    position:absolute;inset:0;
+    background:linear-gradient(rgba(0,0,0,.52),rgba(0,0,0,.68)),
+      url('https://drive.google.com/uc?export=view&id=1x4Zx54yv1i3Vg_MyDG7tl3l8dYjf5v3P') center/cover no-repeat;
+    transform:scale(1.08);/* extra scale for parallax room */
+    will-change:transform;
+  }
+  .splash-content{position:relative;z-index:1;text-align:center;animation:fadeUp .9s ease .2s both;}
+  .splash-tag{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.28em;text-transform:uppercase;margin-bottom:22px;}
+  .splash-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(48px,8vw,92px);color:#fff;text-transform:uppercase;letter-spacing:.04em;line-height:1;margin-bottom:6px;}
+  .splash-line{width:56px;height:2px;background:var(--red);margin:18px auto;}
+  .splash-tagline{font-family:'Roboto',sans-serif;font-weight:300;font-size:clamp(13px,1.8vw,17px);color:rgba(255,255,255,.5);letter-spacing:.1em;margin-bottom:44px;}
+  .splash-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.82);padding:13px 34px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;background:rgba(255,255,255,.04);transition:border-color .25s,color .25s,background .25s;}
+  .splash-btn:hover{border-color:var(--red);color:#fff;background:rgba(192,0,26,.12);}
+  .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'Share Tech Mono',monospace;font-size:8px;color:rgba(255,255,255,.2);letter-spacing:.16em;animation:bounce 2s ease-in-out infinite;}
+  .scroll-hint svg{width:16px;height:16px;fill:rgba(255,255,255,.2);}
+
+  /* ── BANNER (shared) ── */
+  .page-banner{background:var(--card-dark);padding:56px 60px;position:relative;overflow:hidden;}
+  .banner-num{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:160px;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+  .banner-inner{position:relative;z-index:1;}
+  .page-banner h1{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(30px,5vw,52px);color:#fff;}
+  .banner-sub{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:12px;margin-top:10px;letter-spacing:.06em;}
+
+  /* ── PROFILE SECTION ── */
+  .profile-section{display:grid;grid-template-columns:340px 1fr;gap:60px;align-items:start;padding:80px 60px 0;}
+  .profile-left{position:sticky;top:20px;}
+  .profile-photo-frame{border-left:3px solid var(--red);border:1px solid var(--border);border-left:3px solid var(--red);aspect-ratio:3/4;overflow:hidden;background:var(--card-light);}
+  .profile-photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .profile-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:var(--text);text-transform:uppercase;margin-top:14px;letter-spacing:.04em;}
+  .profile-role{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:.08em;}
+  .photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;}
+  .photo-strip-item{aspect-ratio:1;overflow:hidden;background:var(--card-light);}
+  .photo-strip-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+  .photo-strip-item:hover img{transform:scale(1.06);}
+
+  /* ── BLOG POSTS ── */
+  .blog-posts{display:flex;flex-direction:column;gap:48px;}
+  .blog-post{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;background:var(--card-light);border:1px solid var(--border);overflow:hidden;}
+  .blog-post.reverse .blog-post-img{order:2;}
+  .blog-post.reverse .blog-post-body{order:1;}
+  .blog-post-img{overflow:hidden;position:relative;}
+  .blog-post-img img{width:100%;height:100%;min-height:240px;object-fit:cover;display:block;transition:transform .5s;}
+  .blog-post:hover .blog-post-img img{transform:scale(1.04);}
+  .blog-post-body{padding:32px;}
+  .blog-post-tag{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:.16em;margin-bottom:10px;}
+  .blog-post-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:var(--text);margin-bottom:14px;line-height:1.25;}
+  .blog-post-text{font-size:15px;line-height:1.8;color:var(--text);font-weight:300;}
+  .objective-box{border-left:2px solid var(--red);background:#fff5f5;padding:22px 18px 18px;position:relative;margin-top:16px;}
+  .objective-label{position:absolute;top:-1px;left:-1px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:.12em;background:#fff5f5;padding:2px 6px;}
+  .objective-box p{font-style:italic;font-size:14px;line-height:1.8;margin-top:6px;color:var(--text);}
+
+  /* ── TYPEWRITER ── */
+  .typewriter-wrap{padding:40px 60px 0;}
+  .typewriter-line{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--muted);min-height:22px;}
+  .tw-cursor{animation:blink .8s step-end infinite;color:var(--red);}
+
+  /* ── STATS ── */
+  .stats-section{background:var(--card-dark);padding:56px 60px;display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:0;margin-top:56px;position:relative;}
+  .stat-box{padding:32px 24px;text-align:center;border-bottom:2px solid var(--red);transition:transform .3s,box-shadow .3s;cursor:default;position:relative;overflow:hidden;}
+  .stat-box:not(:last-child){border-right:1px solid rgba(255,255,255,.08);}
+  .stat-box:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(192,0,26,.28);}
+  .stat-num{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(26px,3vw,38px);color:var(--red);display:block;line-height:1.1;}
+  .stat-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:#fff;text-transform:uppercase;letter-spacing:.1em;margin-top:8px;display:block;}
+  /* hover reveal tooltip */
+  .stat-tooltip{position:absolute;bottom:0;left:0;right:0;background:rgba(192,0,26,.92);padding:10px 12px;font-family:'Share Tech Mono',monospace;font-size:9px;color:#fff;letter-spacing:.08em;line-height:1.5;transform:translateY(100%);transition:transform .3s ease;text-align:center;}
+  .stat-box:hover .stat-tooltip{transform:translateY(0);}
+
+  /* ── GALLERY ── */
+  .gallery-section{padding:72px 60px;}
+  .section-heading{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+  .section-heading h2{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;color:var(--red);text-transform:uppercase;letter-spacing:.14em;white-space:nowrap;}
+  .section-heading .rule{flex:1;height:1px;background:var(--red);}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .gal-item{overflow:hidden;border:1px solid var(--border);background:var(--card-light);}
+  .gal-item img{width:100%;height:220px;object-fit:cover;display:block;transition:transform .4s;}
+  .gal-item:hover img{transform:scale(1.04);}
+  .gal-caption{padding:8px 12px;background:#fff;border-top:1px solid var(--border);}
+  .gal-caption span{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* ── FOOTER ── */
+  footer{background:var(--black);border-top:1px solid #222;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .f-left{font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;}
+  .f-right{font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;}
+  .f-social{display:flex;gap:18px;align-items:center;}
+  .f-social a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:#888;transition:color .2s;text-decoration:none;}
+  .f-social a:hover{color:var(--red);}
+  .f-social svg{width:18px;height:18px;fill:currentColor;}
+
+  @media(max-width:1024px){.profile-section{padding:60px 32px 0;}.typewriter-wrap{padding:32px 32px 0;}.stats-section{padding:40px 32px;}.gallery-section{padding:56px 32px;}}
+  @media(max-width:900px){.profile-section{grid-template-columns:1fr;}.profile-left{position:static;}}
+  @media(max-width:768px){.blog-post{grid-template-columns:1fr;}.blog-post.reverse .blog-post-img,.blog-post.reverse .blog-post-body{order:unset;}.gallery-grid{grid-template-columns:1fr 1fr;}.stats-section{grid-template-columns:1fr;}.profile-section,.typewriter-wrap,.gallery-section{padding-left:20px;padding-right:20px;}.stats-section{padding:32px 20px;}footer{padding:20px;flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <section class="hero-splash" id="top">
+    <div class="splash-bg" id="parallaxBg"></div>
+    <div class="splash-content">
+      <div class="splash-tag">// Portfolio · 2026</div>
+      <div class="splash-name">Bartosz Bratek</div>
+      <div class="splash-line"></div>
+      <div class="splash-tagline">Gaming Marketer · Brand &amp; Creative Strategy</div>
+      <a href="#about" class="splash-btn">Enter Portfolio ↓</a>
+    </div>
+    <div class="scroll-hint"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>scroll</div>
+  </section>
+
+  <div id="about">
+    <div class="profile-section">
+      <div class="profile-left reveal">
+        <div class="profile-photo-frame">
+          <img src="https://drive.google.com/uc?export=view&id=1rRwJ16AD06dnQqLIx4-ecSc0EiJGiozn" alt="Bartosz Bratek">
+        </div>
+        <div class="profile-name">Bartosz Bratek</div>
+        <div class="profile-role">Portfolio · Aspiring Marketer</div>
+        <div class="photo-strip">
+          <div class="photo-strip-item"><img src="https://drive.google.com/uc?export=view&id=16_bDb32CPvjBFFJ6eGGzG8dSoL5LUX4d" alt="Graduation"></div>
+          <div class="photo-strip-item"><img src="https://drive.google.com/uc?export=view&id=1toZowmw0UDH4VJDtTGLi3GDrVdHHaJSM" alt="Graduation"></div>
+          <div class="photo-strip-item"><img src="https://drive.google.com/uc?export=view&id=1DX1oUj1oHOoDx1d1qmxUUjoOecr5aWlO" alt="Graduation"></div>
+          <div class="photo-strip-item"><img src="https://drive.google.com/uc?export=view&id=1RLOayazD-hn7Jb75T24JIBBVljmuWPpp" alt="Graduation"></div>
+        </div>
+      </div>
+
+      <div class="blog-posts">
+        <div class="blog-post reveal">
+          <div class="blog-post-img"><img src="https://drive.google.com/uc?export=view&id=1CvTaeiZOfCCifNYkxogtuKS9VWE8RBsD" alt="Graduation"></div>
+          <div class="blog-post-body">
+            <div class="blog-post-tag">// Education</div>
+            <div class="blog-post-title">First-Class Honours &amp; Master's Degree</div>
+            <div class="blog-post-text">In 2025 I have graduated with a First-Class Honours in Advertising and Digital Marketing from University of Northampton and currently I am completing master's degree in digital marketing. While master's degree allows me to deepen my knowledge and understanding of marketing, bachelor's degree helped me understand and set my goals.</div>
+          </div>
+        </div>
+        <div class="blog-post reverse reveal">
+          <div class="blog-post-img"><img src="https://drive.google.com/uc?export=view&id=1slZjHtBTcPI7cnfkuf6OBm6vsQyexj79" alt="Networking"></div>
+          <div class="blog-post-body">
+            <div class="blog-post-tag">// Campaigns</div>
+            <div class="blog-post-title">Three Years. Three Live Briefs. Three Winning Campaigns.</div>
+            <div class="blog-post-text">Three years, three client briefs, three winning campaigns, with each one chosen as the best and each one used by the companies. This is how I would describe my experience and first step in to the future. Consistency and determination are what I am most proud of from my time at the university, not only the achievements.</div>
+          </div>
+        </div>
+        <div class="blog-post reveal">
+          <div class="blog-post-img"><img src="https://drive.google.com/uc?export=view&id=1F75P3R_wyU4RWdJbrX0mmFCeByPFthDy" alt="Networking event"></div>
+          <div class="blog-post-body">
+            <div class="blog-post-tag">// Career Objective</div>
+            <div class="blog-post-title">CD Projekt Red — The Goal</div>
+            <div class="objective-box">
+              <span class="objective-label">// CAREER OBJECTIVE</span>
+              <p>My career goal is to become a Brand Creative Director of "The Witcher" at CD Projekt Red. The Witcher culture, games, tv series, books and merchandise are all aspects I want to become a part of at a greater level. In 2025, I took my first step towards my goal. I applied for an apprenticeship at CDPR and reached the final stage of the recruitment process, however I did not manage to get it. Whereas the dissatisfaction did not stop me, it allowed me to realise that there is still a lot to learn and a gap to close between me and other applicants.</p>
+            </div>
+          </div>
+        </div>
+        <div class="blog-post reverse reveal">
+          <div class="blog-post-img"><img src="https://drive.google.com/uc?export=view&id=17KsiCzGHQrZjEc3BUh_50KJMAT0iEQ0e" alt="Networking"></div>
+          <div class="blog-post-body">
+            <div class="blog-post-tag">// Now</div>
+            <div class="blog-post-title">The Beginning of the Journey</div>
+            <div class="blog-post-text">Today, I understand that this is only the beginning of my journey. Despite the lack of industry experience beyond the experience gained at university, I proved my ability to produce work that clients choose to use, passion for games and brand storytelling while having clear objective set.</div>
+            <div class="blog-post-text" style="margin-top:12px;">I live in UK and actively look for junior roles in brand and creative strategy, with a goal to move to Warsaw and become part of something much greater.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="typewriter-wrap"><div class="typewriter-line" id="typewriter"><span class="tw-cursor">|</span></div></div>
+
+    <div class="stats-section">
+      <div class="stat-box reveal">
+        <span class="stat-num">1ST</span>
+        <span class="stat-label">Class Honours</span>
+        <div class="stat-tooltip">First-Class Honours in Advertising &amp; Digital Marketing — University of Northampton, 2025</div>
+      </div>
+      <div class="stat-box reveal">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Live Campaigns Won</span>
+        <div class="stat-tooltip">Naturally Tribal · Police VR Campaign · Channel 4 × B Corp — all selected &amp; used by clients</div>
+      </div>
+      <div class="stat-box reveal">
+        <span class="stat-num">CDPR</span>
+        <span class="stat-label">The Goal</span>
+        <div class="stat-tooltip">Brand Creative Director of The Witcher at CD Projekt Red — reached final stage of 2025 apprenticeship</div>
+      </div>
+    </div>
+
+    <div class="gallery-section">
+      <div class="section-heading reveal"><h2>Moments &amp; Milestones</h2><div class="rule"></div></div>
+      <div class="gallery-grid">
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=16_bDb32CPvjBFFJ6eGGzG8dSoL5LUX4d" alt="Graduation"><div class="gal-caption"><span>Graduation — University of Northampton</span></div></div>
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=1toZowmw0UDH4VJDtTGLi3GDrVdHHaJSM" alt="Graduation"><div class="gal-caption"><span>First-Class Honours — 2025</span></div></div>
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=1DX1oUj1oHOoDx1d1qmxUUjoOecr5aWlO" alt="Graduation"><div class="gal-caption"><span>Graduation Day</span></div></div>
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=1slZjHtBTcPI7cnfkuf6OBm6vsQyexj79" alt="Networking"><div class="gal-caption"><span>Creative Networking &amp; Games Showcase</span></div></div>
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=1F75P3R_wyU4RWdJbrX0mmFCeByPFthDy" alt="Networking"><div class="gal-caption"><span>Northampton Film Festival — Gaming Event</span></div></div>
+        <div class="gal-item reveal"><img src="https://drive.google.com/uc?export=view&id=10ueHaOsIpdh1CNTVCIqJvXyQE_SH-N-7" alt="Networking"><div class="gal-caption"><span>Industry Networking</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-left">Bartosz Bratek — Portfolio</div>
+    <div class="f-social">
+      <a href="https://www.linkedin.com/in/bartoszbratek" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://www.facebook.com/bartosz.bratek.35/" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://www.instagram.com/pixellabmarketing_/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    </div>
+    <div class="f-right">2026</div>
+  </footer>
+</div>
+
+<script>
+// PAGE IN
+document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.page-wrap').style.opacity='1';});
+
+// SMOOTH PAGE TRANSITIONS
+document.querySelectorAll('a[href]').forEach(a=>{
+  const href=a.getAttribute('href');
+  if(href&&!href.startsWith('#')&&!href.startsWith('http')&&!href.startsWith('mailto')&&href.endsWith('.html')){
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      document.querySelector('.page-wrap').style.transition='opacity .3s ease';
+      document.querySelector('.page-wrap').style.opacity='0';
+      setTimeout(()=>{window.location.href=href;},300);
+    });
+  }
+});
+
+// PARALLAX
+window.addEventListener('scroll',()=>{
+  const bg=document.getElementById('parallaxBg');
+  if(!bg)return;
+  const scrolled=window.pageYOffset;
+  const hero=document.querySelector('.hero-splash');
+  if(scrolled<hero.offsetHeight){
+    bg.style.transform=`scale(1.08) translateY(${scrolled*0.3}px)`;
+  }
+},{passive:true});
+
+// REVEAL
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+// TYPEWRITER
+const tw=document.getElementById('typewriter');
+const txt='My goal: Brand Creative Director · CD Projekt Red';
+let i=0;
+function type(){if(i<=txt.length){tw.innerHTML=txt.substring(0,i)+'<span class="tw-cursor">|</span>';i++;setTimeout(type,55);}}
+setTimeout(type,1200);
+</script>
+</body>
+</html>
